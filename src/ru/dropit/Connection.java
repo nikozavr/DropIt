@@ -24,18 +24,21 @@ class GetClients implements Callable<Map<InetAddress, String>>{
             System.out.println("==On " + InetAddress.getLocalHost().toString() + "==");
             DatagramSocket socket = new DatagramSocket(4000,InetAddress.getByName("0.0.0.0"));
             socket.setBroadcast(true);
-            socket.setSoTimeout(5000);
+            socket.setSoTimeout(10000);
             byte[] buf = new byte[256];
             while(!Thread.interrupted()) {
                 try {
                     Arrays.fill(buf, (byte) 0);
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
+                    System.out.println("Test error");
                     socket.receive(packet);
+                    System.out.println("Test error2");
                     InetAddress send_addr = packet.getAddress();
                     System.out.println("--" + send_addr + "--");
                     System.out.println("--" + packet.getData().toString() + "--");
                     client.put(packet.getAddress(), packet.getData().toString());
                 } catch (SocketTimeoutException e){
+                    System.out.println("Timeout");
                     continue;
                 }
             }
@@ -77,7 +80,9 @@ class HearClients extends Thread {
             socket.setBroadcast(true);
             byte[] buf = new byte[256];
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
+            System.out.println("TEST error");
             socket.receive(packet);
+            System.out.println("TEST error");
             InetAddress send_addr = packet.getAddress();
             System.out.println("--"+send_addr+"--");
             System.out.println("--"+packet.getAddress().toString()+"--");
@@ -102,7 +107,7 @@ public class Connection {
         Future<Map<InetAddress,String>> clients = executor.submit(getClients);
         Map<InetAddress, String> list = new HashMap<InetAddress, String>();
         try {
-            list = clients.get(100000, TimeUnit.MILLISECONDS);
+            list = clients.get();
         } catch (Exception e){
             e.printStackTrace();
 
