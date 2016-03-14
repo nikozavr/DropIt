@@ -95,24 +95,35 @@ class HearClients extends Thread {
 public class Connection {
     static CallClients callAll;
     static HearClients hearAll;
-    static void connect(){
+
+    public static Map<InetAddress, String> listClients(){
         ExecutorService executor = Executors.newFixedThreadPool(1);
         GetClients getClients = new GetClients();
         Future<Map<InetAddress,String>> clients = executor.submit(getClients);
+        Map<InetAddress, String> list = new HashMap<InetAddress, String>();
         try {
-            clients.get(100000, TimeUnit.MILLISECONDS);
+            list = clients.get(100000, TimeUnit.MILLISECONDS);
         } catch (Exception e){
             e.printStackTrace();
 
         }
-        clients.cancel(true); //this method will stop the running underlying task
+        clients.cancel(true);
+        //this method will stop the running underlying task
         try {
-            for (InetAddress key : clients.get().keySet()) {
+            for (InetAddress key : list.keySet()) {
                 System.out.println(key);
             }
         } catch (Exception e){
             System.out.println("Error");
         }
+        return list;
+    }
+
+    static void connect(){
+        ExecutorService executor = Executors.newFixedThreadPool(1);
+        GetClients getClients = new GetClients();
+        Future<Map<InetAddress,String>> clients = executor.submit(getClients);
+
         callAll = new CallClients();
         callAll.start();
     }
