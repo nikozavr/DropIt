@@ -20,26 +20,25 @@ class GetClients implements Callable<Map<InetAddress, String>>{
         Map<InetAddress, String> client = new HashMap<InetAddress, String>();
 
         try{
-            System.out.println("==Listen is started==");
-            System.out.println("==On " + InetAddress.getLocalHost().toString() + "==");
+
             DatagramSocket socket = new DatagramSocket(4000,InetAddress.getByName("0.0.0.0"));
             socket.setBroadcast(true);
-            socket.setSoTimeout(10000);
+            socket.setSoTimeout(5000);
+            System.out.println("==Listen is started==");
+            System.out.println("==On " + socket.getInetAddress().getLocalHost().toString() + "==");
             byte[] buf = new byte[256];
             while(!Thread.interrupted()) {
                 try {
                     Arrays.fill(buf, (byte) 0);
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
-                    System.out.println("Test error");
                     socket.receive(packet);
-                    System.out.println("Test error2");
                     InetAddress send_addr = packet.getAddress();
                     System.out.println("--" + send_addr + "--");
                     System.out.println("--" + packet.getData().toString() + "--");
                     client.put(packet.getAddress(), packet.getData().toString());
                 } catch (SocketTimeoutException e){
-                    System.out.println("Timeout");
-                    continue;
+                    System.out.println("Error: Socket timeout");
+                    break;
                 }
             }
             socket.close();
@@ -70,36 +69,8 @@ class CallClients extends Thread {
     }
 }
 
-class HearClients extends Thread {
-    @Override
-    public void run() {
-        try {
-            System.out.println("==Listen is started==");
-            System.out.println("==On "+InetAddress.getLocalHost().toString()+"==");
-            DatagramSocket socket = new DatagramSocket(4000,InetAddress.getByName("0.0.0.0"));
-            socket.setBroadcast(true);
-            byte[] buf = new byte[256];
-            DatagramPacket packet = new DatagramPacket(buf, buf.length);
-            System.out.println("TEST error");
-            socket.receive(packet);
-            System.out.println("TEST error");
-            InetAddress send_addr = packet.getAddress();
-            System.out.println("--"+send_addr+"--");
-            System.out.println("--"+packet.getAddress().toString()+"--");
-            socket.receive(packet);
-            System.out.println("--"+(new String(packet.getData()))+"--");
-            System.out.println("--"+packet.getAddress()+"--");
-            socket.close();
-            System.out.println("==Listen is over==");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-}
-
 public class Connection {
     static CallClients callAll;
-    static HearClients hearAll;
 
     public static Map<InetAddress, String> listClients(){
         ExecutorService executor = Executors.newFixedThreadPool(1);
@@ -110,7 +81,6 @@ public class Connection {
             list = clients.get();
         } catch (Exception e){
             e.printStackTrace();
-
         }
         clients.cancel(true);
         //this method will stop the running underlying task
