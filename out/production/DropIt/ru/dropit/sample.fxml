@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.dropit.Controller">
+<GridPane alignment="center" hgap="10" prefHeight="232.0" prefWidth="475.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.72" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.dropit.Controller">
    <columnConstraints>
+      <ColumnConstraints />
+      <ColumnConstraints />
+      <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
    </columnConstraints>
@@ -18,8 +22,18 @@
       <RowConstraints />
    </rowConstraints>
    <children>
-      <ListView fx:id="ListView_test" prefHeight="200.0" prefWidth="200.0" />
-      <ListView fx:id="lst_devices" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" />
-      <Button fx:id="btnSearch" mnemonicParsing="false" prefHeight="25.0" prefWidth="201.0" text="Button" GridPane.columnIndex="1" GridPane.rowIndex="1"  onAction="#searchConnections"/>
+      <ListView fx:id="lst_devices" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="4" />
+      <Button fx:id="btnSearch" mnemonicParsing="false" onAction="#searchConnections" prefHeight="25.0" prefWidth="201.0" text="Search" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="197.0" prefWidth="207.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="lbl_Hostname" layoutX="14.0" layoutY="14.0" text="Hostname:" />
+                  <Label fx:id="lbl_Local_ip" layoutX="32.0" layoutY="47.0" text="Local IP:" />
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="93.0" prefWidth="242.0" />
+        </items>
+      </SplitPane>
    </children>
 </GridPane>

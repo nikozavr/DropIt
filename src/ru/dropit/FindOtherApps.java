@@ -1,17 +1,15 @@
 package ru.dropit;
 
-import sun.rmi.runtime.Log;
-
+import ru.dropit.FindApps.GetClients;
 import java.net.*;
 import java.util.*;
 import java.util.concurrent.*;
 
 
-public class Connection {
+public class FindOtherApps {
     public static Map<InetAddress, String> listClients(){
         ExecutorService executor = Executors.newFixedThreadPool(1);
-        GetClients getClients = new GetClients();
-        Future<Map<InetAddress,String>> clients = executor.submit(getClients);
+        Future<Map<InetAddress,String>> clients = executor.submit(new GetClients());
         Map<InetAddress, String> list = new HashMap<InetAddress, String>();
         try {
             list = clients.get();

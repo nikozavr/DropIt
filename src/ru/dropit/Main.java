@@ -26,7 +26,13 @@ public class Main extends Application {
                 controller.handleWindowShownEvent();
             }
         });
-        primaryStage.setTitle("Hello World");
+        primaryStage.addEventHandler(WindowEvent.WINDOW_CLOSE_REQUEST, new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                controller.handleWindowCloseEvent();
+            }
+        });
+        primaryStage.setTitle("DropIt                               ");
         primaryStage.setScene(new Scene(root, 500, 275));
         primaryStage.show();
     }

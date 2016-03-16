@@ -1,6 +1,7 @@
-package ru.dropit;
+package ru.dropit.FindApps;
 
 import com.sun.org.apache.bcel.internal.generic.SIPUSH;
+import ru.dropit.Main;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -11,11 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-/**
- * Created by nikit on 15.03.2016.
- */
+
 public class GetClients implements Callable<Map<InetAddress, String>> {
-    GetClients(){
+    public GetClients(){
 
     }
 

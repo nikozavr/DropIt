@@ -1,4 +1,7 @@
-package ru.dropit;
+package ru.dropit.FindApps;
+
+import ru.dropit.FindApps.GotAsClient;
+import ru.dropit.Main;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -7,6 +10,7 @@ import java.net.SocketTimeoutException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by nikit on 15.03.2016.
@@ -20,6 +24,7 @@ public class ListenOthers implements Runnable {
             System.out.println("--Listen is started--");
             System.out.println("--On " + socket.getInetAddress().getLocalHost().toString() + "--");
             byte[] buf = new byte[256];
+            socket.setSoTimeout(5000);
             while(!Thread.interrupted()) {
                 try {
                     Arrays.fill(buf, (byte) 0);
@@ -28,13 +33,16 @@ public class ListenOthers implements Runnable {
                     InetAddress send_addr = packet.getAddress();
                     System.out.println("--" + send_addr + "--");
                     System.out.println("--" + packet.getData().toString() + "--");
-                    if(packet.getData().toString()==Main.SIGNAL) {
+                    if(packet.getData().toString()== Main.SIGNAL) {
                         System.out.println("Test");
                         ExecutorService executor = Executors.newFixedThreadPool(1);
                         executor.submit(new GotAsClient(packet.getAddress()));
                     }
+                } catch (SocketTimeoutException e){
+                    System.out.println("--Timout--");
+                    continue;
                 } catch (Exception e){
-                    System.out.println("--Error: Socket error--");
+                    System.out.println("--Error: Socket errro--");
                     break;
                 }
             }

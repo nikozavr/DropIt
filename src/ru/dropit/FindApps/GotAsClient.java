@@ -1,4 +1,6 @@
-package ru.dropit;
+package ru.dropit.FindApps;
+
+import ru.dropit.IpAddress;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
