@@ -8,6 +8,8 @@ import javafx.collections.ObservableList;
 
 import java.net.InetAddress;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class Controller {
     public ListView lst_devices;
@@ -18,5 +20,10 @@ public class Controller {
         Map<InetAddress, String> list = Connection.listClients();
         data.addAll(list.values());
         lst_devices.setItems(data);
+    }
+
+    public void handleWindowShownEvent(){
+        Executor executor = Executors.newFixedThreadPool(1);
+        executor.execute(new ListenOthers());
     }
 }

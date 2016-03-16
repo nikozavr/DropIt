@@ -1,0 +1,47 @@
+package ru.dropit;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketTimeoutException;
+import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * Created by nikit on 15.03.2016.
+ */
+public class ListenOthers implements Runnable {
+    @Override
+    public void run(){
+        try{
+            DatagramSocket socket = new DatagramSocket(4000, InetAddress.getByName("0.0.0.0"));
+            socket.setBroadcast(true);
+            System.out.println("--Listen is started--");
+            System.out.println("--On " + socket.getInetAddress().getLocalHost().toString() + "--");
+            byte[] buf = new byte[256];
+            while(!Thread.interrupted()) {
+                try {
+                    Arrays.fill(buf, (byte) 0);
+                    DatagramPacket packet = new DatagramPacket(buf, buf.length);
+                    socket.receive(packet);
+                    InetAddress send_addr = packet.getAddress();
+                    System.out.println("--" + send_addr + "--");
+                    System.out.println("--" + packet.getData().toString() + "--");
+                    if(packet.getData().toString()==Main.SIGNAL) {
+                        System.out.println("Test");
+                        ExecutorService executor = Executors.newFixedThreadPool(1);
+                        executor.submit(new GotAsClient(packet.getAddress()));
+                    }
+                } catch (Exception e){
+                    System.out.println("--Error: Socket error--");
+                    break;
+                }
+            }
+            socket.close();
+            System.out.println("--Listen is over--");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+}
