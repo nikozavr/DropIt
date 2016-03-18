@@ -10,12 +10,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.logging.Logger;
 
 /**
  * Created by nikit on 15.03.2016.
  */
 public class GotAsClient implements Runnable {
     InetAddress server;
+    Logger logger = Logger.getLogger("DropItLog");
 
     GotAsClient(InetAddress address){
         server = address;
@@ -24,14 +26,14 @@ public class GotAsClient implements Runnable {
     @Override
     public void run() {
         try{
-            System.out.println("======Send is started====");
+            logger.info("======Send is started====");
             DatagramSocket socket = new DatagramSocket(4001);
             socket.setBroadcast(true);
             byte[] buf = IpAddress.getIpAddress().toString().getBytes();
             DatagramPacket data = new DatagramPacket(buf, buf.length, server, 4000);
             socket.send(data);
             socket.close();
-            System.out.println("======Send is over====");
+            logger.info("======Send is over====");
         } catch (Exception e){
             e.printStackTrace();
         }

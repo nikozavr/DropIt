@@ -14,12 +14,15 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 public class Controller {
     public ListView lst_devices;
     public Label lbl_Hostname;
     public Label lbl_Local_ip;
     ExecutorService executor;
+    ListenOthers listenOthers;
+    Logger logger = Logger.getLogger("DropItLog");
 
     ObservableList<String> data = FXCollections.observableArrayList();
 
@@ -31,7 +34,8 @@ public class Controller {
 
     public void handleWindowShownEvent(){
         executor = Executors.newFixedThreadPool(1);
-        executor.execute(new ListenOthers());
+        listenOthers = new ListenOthers();
+        executor.execute(listenOthers);
         try{
             lbl_Hostname.setText(lbl_Hostname.getText() + InetAddress.getLocalHost().getHostName());
         } catch (UnknownHostException e){
@@ -41,7 +45,7 @@ public class Controller {
     }
 
     public void handleWindowCloseEvent(){
-        System.out.println("Program closed");
-        Thread.currentThread().interrupt();
+        logger.info("Program closed");
+        executor.shutdownNow();
     }
 }

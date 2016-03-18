@@ -11,26 +11,28 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class GetClients implements Callable<Map<InetAddress, String>> {
+    Logger logger = Logger.getLogger("DropItLog");
+
     public GetClients(){
 
     }
 
     private void send() {
         try{
-            System.out.println("====Send is started====");
+            logger.info("====Send is started====");
             DatagramSocket socket = new DatagramSocket(4001);
             socket.setBroadcast(true);
             byte[] buf = Main.SIGNAL.getBytes();
-            System.out.println(Main.SIGNAL);
-            System.out.println(Main.SIGNAL.getBytes());
             InetAddress address = InetAddress.getByName("192.168.255.255");
             DatagramPacket data = new DatagramPacket(buf, buf.length, address, 4000);
             socket.send(data);
             socket.close();
-            System.out.println("====Send is over====");
+            logger.info("====Send is over====");
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -44,8 +46,8 @@ public class GetClients implements Callable<Map<InetAddress, String>> {
             socket.setBroadcast(true);
             socket.setSoTimeout(5000);
 
-            System.out.println("==Search is started==");
-            System.out.println("==On " + socket.getInetAddress().getLocalHost().toString() + "==");
+            logger.info("==Search is started==");
+            logger.info("==On " + socket.getInetAddress().getLocalHost().toString() + "==");
             byte[] buf = new byte[256];
             while(!Thread.interrupted()) {
                 try {
@@ -53,16 +55,16 @@ public class GetClients implements Callable<Map<InetAddress, String>> {
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
                     socket.receive(packet);
                     InetAddress send_addr = packet.getAddress();
-                    System.out.println("?/" + send_addr + "--");
-                    System.out.println("?/" + packet.getData().toString() + "--");
+                    logger.info("?/" + send_addr + "--");
+                    logger.info("?/" + packet.getData().toString() + "--");
                     client.put(packet.getAddress(), packet.getData().toString());
                 } catch (SocketTimeoutException e){
-                    System.out.println("Error: Socket timeout");
+                    logger.log(Level.SEVERE, "Error: Socket timeout");
                     break;
                 }
             }
             socket.close();
-            System.out.println("==Search is over==");
+            logger.info("==Search is over==");
         } catch (Exception e){
             e.printStackTrace();
         }

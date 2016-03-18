@@ -8,6 +8,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
 public class Main extends Application {
     public static final String SIGNAL = "DropIt_is_running";
 
@@ -32,7 +37,31 @@ public class Main extends Application {
                 controller.handleWindowCloseEvent();
             }
         });
-        primaryStage.setTitle("DropIt                               ");
+
+        Logger logger = Logger.getLogger("DropItLog");
+        Logger logger_recieve = Logger.getLogger("DropItRecieves");
+        Logger logger_send = Logger.getLogger("DropItSend");
+
+        FileHandler fh;
+
+        try {
+
+            // This block configure the logger with handler and formatter
+            fh = new FileHandler("C:\\Users\\nikit\\IdeaProjects\\DropIt\\DropItLogFile.log");
+            logger.addHandler(fh);
+            SimpleFormatter formatter = new SimpleFormatter();
+            fh.setFormatter(formatter);
+
+            // the following statement is used to log any messages
+            logger.info("My first log");
+
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        primaryStage.setTitle("DropIt");
         primaryStage.setScene(new Scene(root, 500, 275));
         primaryStage.show();
     }
