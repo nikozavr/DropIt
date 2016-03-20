@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 public class GotAsClient implements Runnable {
     InetAddress server;
     Logger logger = Logger.getLogger("DropItLog");
+    Logger logger_send = Logger.getLogger("DropItSend");
 
     GotAsClient(InetAddress address){
         server = address;
@@ -32,6 +33,7 @@ public class GotAsClient implements Runnable {
             byte[] buf = IpAddress.getIpAddress().toString().getBytes();
             DatagramPacket data = new DatagramPacket(buf, buf.length, server, 4000);
             socket.send(data);
+            logger_send.info(IpAddress.getIpAddress().toString());
             socket.close();
             logger.info("======Send is over====");
         } catch (Exception e){

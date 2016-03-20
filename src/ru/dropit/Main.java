@@ -39,10 +39,12 @@ public class Main extends Application {
         });
 
         Logger logger = Logger.getLogger("DropItLog");
-        Logger logger_recieve = Logger.getLogger("DropItRecieves");
+        Logger logger_recieve = Logger.getLogger("DropItRecieve");
         Logger logger_send = Logger.getLogger("DropItSend");
 
         FileHandler fh;
+        FileHandler fh_recieve;
+        FileHandler fh_send;
 
         try {
 
@@ -52,8 +54,13 @@ public class Main extends Application {
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
 
-            // the following statement is used to log any messages
-            logger.info("My first log");
+            fh_recieve = new FileHandler("C:\\Users\\nikit\\IdeaProjects\\DropIt\\DropItRecieve.log");
+            logger_recieve.addHandler(fh_recieve);
+            fh_recieve.setFormatter(formatter);
+
+            fh_send = new FileHandler("C:\\Users\\nikit\\IdeaProjects\\DropIt\\DropItSend.log");
+            logger_send.addHandler(fh_send);
+            fh_send.setFormatter(formatter);
 
         } catch (SecurityException e) {
             e.printStackTrace();

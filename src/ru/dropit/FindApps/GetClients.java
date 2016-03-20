@@ -1,8 +1,10 @@
 package ru.dropit.FindApps;
 
 import com.sun.org.apache.bcel.internal.generic.SIPUSH;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import ru.dropit.Main;
-
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -15,8 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class GetClients implements Callable<Map<InetAddress, String>> {
+public class GetClients extends Task<ObservableList<String>> {
     Logger logger = Logger.getLogger("DropItLog");
+    Logger logger_send = Logger.getLogger("DropItSend");
 
     public GetClients(){
 
@@ -31,6 +34,7 @@ public class GetClients implements Callable<Map<InetAddress, String>> {
             InetAddress address = InetAddress.getByName("192.168.255.255");
             DatagramPacket data = new DatagramPacket(buf, buf.length, address, 4000);
             socket.send(data);
+            logger_send.info(Main.SIGNAL);
             socket.close();
             logger.info("====Send is over====");
         } catch (Exception e){
@@ -72,8 +76,10 @@ public class GetClients implements Callable<Map<InetAddress, String>> {
     }
 
     @Override
-    public Map<InetAddress, String> call() {
+    public ObservableList<String> call() throws Exception {
         send();
-        return listen();
+        Map<InetAddress, String> result = listen();
+
+        return FXCollections.observableArrayList(result.values());
     }
 }

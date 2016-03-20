@@ -1,6 +1,5 @@
 package ru.dropit.FindApps;
 
-import ru.dropit.FindApps.GotAsClient;
 import ru.dropit.Main;
 
 import java.net.DatagramPacket;
@@ -10,7 +9,7 @@ import java.net.SocketTimeoutException;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeoutException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -18,6 +17,7 @@ import java.util.logging.Logger;
  */
 public class ListenOthers implements Runnable {
     Logger logger = Logger.getLogger("DropItLog");
+    Logger logger_receive = Logger.getLogger("DropItRecieve");
 
     @Override
     public void run(){
@@ -34,23 +34,21 @@ public class ListenOthers implements Runnable {
                     DatagramPacket packet = new DatagramPacket(buf, buf.length);
                     socket.receive(packet);
                     InetAddress send_addr = packet.getAddress();
-                    System.out.println("--" + send_addr + "--");
-                    System.out.println("--" + new String(packet.getData()) + "--");
+                    logger_receive.info(new String(packet.getData()));
                     if(new String(packet.getData()) == Main.SIGNAL) {
-                        System.out.println("Test");
                         ExecutorService executor = Executors.newFixedThreadPool(1);
                         executor.submit(new GotAsClient(packet.getAddress()));
                     }
                 } catch (SocketTimeoutException e){
-                    System.out.println("--Timout--");
+                    logger.info("Timeout");
                     continue;
                 } catch (Exception e){
-                    System.out.println("--Error: Socket errro--");
+                    logger.log(Level.SEVERE, "Socket error");
                     break;
                 }
             }
             socket.close();
-            System.out.println("--Listen is over--");
+            logger.info("Listen is over");
         } catch (Exception e){
             e.printStackTrace();
         }
