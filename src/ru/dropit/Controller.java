@@ -32,6 +32,7 @@ public class Controller {
     ObservableList<String> data = FXCollections.observableArrayList();
 
     public void searchConnections(ActionEvent actionEvent){
+        lblNoneDevices.setVisible(false);
         pgiSearch.setStyle(" -fx-progress-color: red;");
         // changing size without css
         pgiSearch.setMinWidth(50);
