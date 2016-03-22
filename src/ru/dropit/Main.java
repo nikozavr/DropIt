@@ -1,5 +1,6 @@
 package ru.dropit;
 
+import com.sun.deploy.util.SystemUtils;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -7,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import sun.plugin2.util.SystemUtil;
 
 import java.io.IOException;
 import java.util.logging.FileHandler;
@@ -46,19 +48,20 @@ public class Main extends Application {
         FileHandler fh_recieve;
         FileHandler fh_send;
 
+
         try {
 
             // This block configure the logger with handler and formatter
-            fh = new FileHandler("C:\\Users\\nikit\\IdeaProjects\\DropIt\\DropItLogFile.log");
+            fh = new FileHandler(System.getProperty("user.dir") + "DropItLogFile.log");
             logger.addHandler(fh);
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
 
-            fh_recieve = new FileHandler("C:\\Users\\nikit\\IdeaProjects\\DropIt\\DropItRecieve.log");
+            fh_recieve = new FileHandler(System.getProperty("user.dir") + "DropItRecieve.log");
             logger_recieve.addHandler(fh_recieve);
             fh_recieve.setFormatter(formatter);
 
-            fh_send = new FileHandler("C:\\Users\\nikit\\IdeaProjects\\DropIt\\DropItSend.log");
+            fh_send = new FileHandler(System.getProperty("user.dir") + "DropItSend.log");
             logger_send.addHandler(fh_send);
             fh_send.setFormatter(formatter);
 

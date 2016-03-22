@@ -29,15 +29,12 @@ public class Controller {
     Thread thListenOthers;
     Logger logger = Logger.getLogger("DropItLog");
 
-    ObservableList<String> data = FXCollections.observableArrayList();
-
     public void searchConnections(ActionEvent actionEvent){
         lblNoneDevices.setVisible(false);
         pgiSearch.setStyle(" -fx-progress-color: red;");
         // changing size without css
         pgiSearch.setMinWidth(50);
         pgiSearch.setMinHeight(50);
-     //   final FutureTask<Map<InetAddress, String>> query = new FutureTask(getClients);
         Task<ObservableList<String>> task = new GetClients();
         pgiSearch.setVisible(true);
         pgiSearch.setProgress(-1);
@@ -55,20 +52,6 @@ public class Controller {
         });
 
         new Thread(task).start();
-   //     task.stateProperty().
-        //Future<Map<InetAddress, String>> futureList = executor.submit(getClients);
-    /*    try {
-            Map<InetAddress, String> list = query.get();
-            if(!list.isEmpty()){
-                data.addAll(list.values());
-                lst_devices.setItems(data);
-            } else{
-                lblNoneDevices.setVisible(true);
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }*/
-
     }
 
     public void handleWindowShownEvent(){
