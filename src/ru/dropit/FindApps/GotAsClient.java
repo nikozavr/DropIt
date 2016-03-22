@@ -1,15 +1,10 @@
 package ru.dropit.FindApps;
 
-import ru.dropit.IpAddress;
+import ru.dropit.LocalIpAddress.IpAddress;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketTimeoutException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
 /**

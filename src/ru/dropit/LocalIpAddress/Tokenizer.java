@@ -1,7 +1,6 @@
-package ru.dropit;
+package ru.dropit.LocalIpAddress;
 
-import java.io.*;
-import java.util.*;
+import ru.dropit.LocalIpAddress.StringArray;
 
 /**
  * This class perform similar functionality to StringTokenizer class but faster.

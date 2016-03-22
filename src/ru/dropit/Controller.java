@@ -8,11 +8,12 @@ import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ProgressIndicator;
 import ru.dropit.FindApps.GetClients;
 import ru.dropit.FindApps.ListenOthers;
+import ru.dropit.LocalIpAddress.IpAddress;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.*;

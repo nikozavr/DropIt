@@ -1,6 +1,5 @@
 package ru.dropit;
 
-import com.sun.deploy.util.SystemUtils;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -8,8 +7,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import sun.plugin2.util.SystemUtil;
-
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -41,11 +38,11 @@ public class Main extends Application {
         });
 
         Logger logger = Logger.getLogger("DropItLog");
-        Logger logger_recieve = Logger.getLogger("DropItRecieve");
+        Logger logger_receive = Logger.getLogger("DropItRecieve");
         Logger logger_send = Logger.getLogger("DropItSend");
 
         FileHandler fh;
-        FileHandler fh_recieve;
+        FileHandler fh_receive;
         FileHandler fh_send;
 
 
@@ -57,9 +54,9 @@ public class Main extends Application {
             SimpleFormatter formatter = new SimpleFormatter();
             fh.setFormatter(formatter);
 
-            fh_recieve = new FileHandler(System.getProperty("user.dir") + "DropItRecieve.log");
-            logger_recieve.addHandler(fh_recieve);
-            fh_recieve.setFormatter(formatter);
+            fh_receive = new FileHandler(System.getProperty("user.dir") + "DropItRecieve.log");
+            logger_receive.addHandler(fh_receive);
+            fh_receive.setFormatter(formatter);
 
             fh_send = new FileHandler(System.getProperty("user.dir") + "DropItSend.log");
             logger_send.addHandler(fh_send);

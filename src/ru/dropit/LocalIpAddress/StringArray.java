@@ -1,7 +1,6 @@
-package ru.dropit;
+package ru.dropit.LocalIpAddress;
 
 import java.io.*;
-import java.util.*;
 
 /**
  * This class is an auto-resizable String array. It has similar methods to ArrayList
