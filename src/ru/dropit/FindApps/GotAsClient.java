@@ -25,10 +25,11 @@ public class GotAsClient implements Runnable {
             logger.info("======Send is started====");
             DatagramSocket socket = new DatagramSocket(4001);
             socket.setBroadcast(true);
-            byte[] buf = IpAddress.getIpAddress().toString().getBytes();
+            IpAddress ipAddress = new IpAddress();
+            byte[] buf = ipAddress.getIpAddress().toString().getBytes();
             DatagramPacket data = new DatagramPacket(buf, buf.length, server, 4000);
             socket.send(data);
-            logger_send.info(IpAddress.getIpAddress().toString());
+            logger_send.info(ipAddress.getIpAddress().toString());
             socket.close();
             logger.info("======Send is over====");
         } catch (Exception e){

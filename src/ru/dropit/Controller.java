@@ -65,7 +65,8 @@ public class Controller {
         } catch (UnknownHostException e){
             e.printStackTrace();
         }
-        lbl_Local_ip.setText(lbl_Local_ip.getText() + IpAddress.getIpAddress().toString());
+        IpAddress ipAddress = new IpAddress();
+        lbl_Local_ip.setText(lbl_Local_ip.getText() + ipAddress.getIpAddress().toString());
     }
 
     public void handleWindowCloseEvent(){
