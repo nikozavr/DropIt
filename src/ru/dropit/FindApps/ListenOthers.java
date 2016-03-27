@@ -35,7 +35,7 @@ public class ListenOthers implements Runnable {
                     socket.receive(packet);
                     InetAddress send_addr = packet.getAddress();
                     logger_receive.info(new String(packet.getData()));
-                    if(new String(packet.getData()) == Main.SIGNAL) {
+                    if(new String(packet.getData()).contains(Main.SIGNAL)) {
                         ExecutorService executor = Executors.newFixedThreadPool(1);
                         executor.submit(new GotAsClient(packet.getAddress()));
                     }
